@@ -14,4 +14,7 @@ export class Tab1Page {
   constructor(private serv: TreinoService) {
     this.treinos = this.serv.treinos
   }
+  excluir(id : number) {
+    this.serv.deleteTreino(id)
+  }
 }

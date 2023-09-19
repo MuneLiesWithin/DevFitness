@@ -32,7 +32,7 @@ export class TreinoService {
     }
   }
   deleteTreino(id : number) {
-    this.treinos.splice(id - 1, 1)
+      this.treinos.splice(id - 1, 1)
   }
   addTreino(tipo : string, name : string, time : number, exercicios: Exercicio[]) {
     let treino = new Treino(this.treinos.length + 1, tipo, name, time);
