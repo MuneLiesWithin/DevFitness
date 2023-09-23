@@ -1,17 +1,98 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="container">
+    <div class="header">
+      <img src="{{user?.photoURL}}" alt="" />
+      <h1>{{user?.displayName}}</h1>
+    </div>
+    <div class="content">
+      <p>data ultima avaliação</p>
+      <p [(ngModel)]="ultimaAvalicao" class="green-text">{{ultimaAvalicao}}</p>
+    </div>
+    <div *ngIf="!editable">
+      <div class="content">
+        <h1>composição corporal</h1>
+        <h2>IMC</h2>
+        <p class="green-text imc">{{imc}}</p>
+        <section>
+          <div class="item">
+            <p>musculo</p>
+            <p class="green-text">{{musculo}}%</p>
+          </div>
+          <div class="item">
+            <p>gordura</p>
+            <p class="green-text">{{gordura}}%</p>
+          </div>
+          <div class="item">
+            <p>resíduos</p>
+            <p class="green-text">{{residuos}}%</p>
+          </div>
+        </section>
+      </div>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+      <div class="content">
+        <section>
+          <div class="item">
+            <p>altura</p>
+            <p class="green-text">{{altura}} cm</p>
+          </div>
+          <div class="item">
+            <p>peso</p>
+            <p class="green-text">{{peso}} kg</p>
+          </div>
+          <div class="item">
+            <p>idade</p>
+            <p class="green-text">{{idade}} anos</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div *ngIf="editable">
+      <div class="content">
+        <h1>composição corporal</h1>
+        <h2>IMC</h2>
+        <p class="green-text imc">{{imc}}</p>
+        <section>
+          <div class="item">
+            <p>musculo</p>
+            <input [(ngModel)]="musculo" type="number" value="{{musculo}}" />
+          </div>
+          <div class="item">
+            <p>gordura</p>
+            <input [(ngModel)]="gordura" type="number" />
+          </div>
+          <div class="item">
+            <p>resíduos</p>
+            <input [(ngModel)]="residuos" type="number" />
+          </div>
+        </section>
+      </div>
+
+      <div class="content">
+        <section>
+          <div class="item">
+            <p>altura</p>
+            <input [(ngModel)]="altura" type="number" />
+          </div>
+          <div class="item">
+            <p>peso</p>
+            <input [(ngModel)]="peso" type="number" />
+          </div>
+          <div class="item">
+            <p>idade</p>
+            <input [(ngModel)]="idade" type="number" />
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div *ngIf="!editable" class="button-area">
+      <button (click)="logOut()">logout</button>
+      <button (click)="toggleEditable()">Editar</button>
+    </div>
+    <div *ngIf="editable" class="button-area">
+      <button (click)="limpar()">limpar</button>
+      <button (click)="salvar()">salvar</button>
+    </div>
+  </div>
 </ion-content>
