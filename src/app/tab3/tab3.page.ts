@@ -1,9 +1,8 @@
 import { UserStats } from './../interfaces/user-stats';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../authService.service';
+import { AuthService } from '../services/authService.service';
 import { User } from 'firebase/auth';
-import { DatabaseService } from '../database.service';
-
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-tab3',
@@ -30,11 +29,13 @@ export class Tab3Page implements OnInit {
     private dataService: DatabaseService
   ) {
     this.user = authService.getUser();
+    this.getDadosUsuario();
   }
 
-  ngOnInit() {
-    this.dataService.getUserStats().then((e) => {
-      console.log(e);
+  ngOnInit(): void {}
+
+  async getDadosUsuario(): Promise<void> {
+    await this.dataService.getUserStats().then((e) => {
       if (e !== null) {
         this.userDetails = e;
         this.musculo = e.musculo;
@@ -52,7 +53,6 @@ export class Tab3Page implements OnInit {
   toggleEditable() {
     this.editable = true;
   }
-
 
   logOut() {
     this.authService.logOut();
@@ -73,12 +73,13 @@ export class Tab3Page implements OnInit {
   }
 
   salvar() {
+    this.imc = this.calcularIMC(this.peso, this.altura);
     const data: UserStats = {
       musculo: this.musculo,
       altura: this.altura,
       gordura: this.gordura,
       idade: this.idade,
-      imc: this.calcularIMC(this.peso, this.altura),
+      imc: this.imc,
       peso: this.peso,
       residuos: this.residuos,
       ultimaAvalicao: new Date().toLocaleDateString('en-GB'),
@@ -87,7 +88,10 @@ export class Tab3Page implements OnInit {
     this.userDetails = data;
     this.dataService
       .updateUsuario(data)
-      .then((e) => (this.editable = false))
+      .then((e) => {
+        alert('Avaliação salva');
+        this.editable = false;
+      })
       .catch((e) => console.error(e));
   }
 
@@ -95,5 +99,4 @@ export class Tab3Page implements OnInit {
     altura = altura;
     return Math.round(kilos / (altura * altura));
   }
-
 }
